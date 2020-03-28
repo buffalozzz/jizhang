@@ -6,10 +6,10 @@
             <span class="rightIcon"></span>
         </div>
         <div class="form-wrapper">
-            <FormItem   :value="tag.name"
-                        @update:value = "updateTag"
-                        field-name="请输入标签名"
-                        placeholder="标签名"
+            <FormItem :value="tag.name"
+                      @update:value="updateTag"
+                      field-name="请输入标签名"
+                      placeholder="标签名"
 
             />
         </div>
@@ -20,44 +20,48 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue'
-    import {Component} from 'vue-property-decorator'
+    import Vue from 'vue';
+    import {Component} from 'vue-property-decorator';
     import FormItem from "@/components/money/FormItem.vue";
     import Button from "@/components/Button.vue";
+
     @Component({
-        components: {Button, FormItem }
+        components: {Button, FormItem}
     })
     export default class EditLabel extends Vue {
         tag?: Tag = undefined;
 
         created() {
             this.tag = window.findTag(this.$route.params.id);
-            if (!this.tag){
-                this.$router.replace('/404')
+            if (!this.tag) {
+                this.$router.replace('/404');
             }
         }
-        updateTag(name: string){
-            if(this.tag){
-                window.updateTag(this.tag.id,name)
+
+        updateTag(name: string) {
+            if (this.tag) {
+                window.updateTag(this.tag.id, name);
             }
         }
-        remove(){
-            if (this.tag){
-                if (window.removeTag(this.tag.id)){
-                    this.$router.back()
+
+        remove() {
+            if (this.tag) {
+                if (window.removeTag(this.tag.id)) {
+                    this.$router.back();
                 } else {
-                    window.alert('删除失败')
+                    window.alert('删除失败');
                 }
             }
         }
-        goBack(){
-            this.$router.back()
+
+        goBack() {
+            this.$router.back();
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .navBar{
+    .navBar {
         text-align: center;
         font-size: 16px;
         padding: 12px 16px;
@@ -65,23 +69,28 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        > .title{
+
+        > .title {
             border: 1px solid red;
         }
-        > .leftIcon{
+
+        > .leftIcon {
             border: 1px solid red;
 
         }
-        > .rightIcon{
+
+        > .rightIcon {
             border: 1px solid red;
 
         }
     }
-    .form-wrapper{
+
+    .form-wrapper {
         margin-top: 8px;
         background: #ffffff;
     }
-    .button-wrapper{
+
+    .button-wrapper {
         text-align: center;
         padding: 16px;
         margin-top: 44-16px;
