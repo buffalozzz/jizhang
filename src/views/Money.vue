@@ -1,7 +1,9 @@
 <template>
     <Layout class-prefix="layout">
         <NumberPad @update:value="onUpdateNumberPad" @submit="saveRecord"/>
-        <Types :value.sync="record.type"/>
+        <Tabs :data-source="recordTypeList"
+              :value.sync="record.type"
+        />
         <div class="m-from-wrap">
             <FormItem field-name="备注"
                       placeholder="请输入备注"
@@ -13,15 +15,16 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue'
-    import {Component} from 'vue-property-decorator'
+    import Vue from 'vue';
+    import {Component} from 'vue-property-decorator';
     import NumberPad from "@/components/money/NumberPad.vue";
-    import Types from "@/components/money/Types.vue";
     import Tags from "@/components/money/Tags.vue";
     import FormItem from "@/components/money/FormItem.vue";
+    import Tabs from "@/components/Tabs.vue";
+    import recordTypeList from "@/constants/recordTypeList";
 
     @Component({
-        components: {FormItem, Tags, Types, NumberPad},
+        components: {Tabs, FormItem, Tags, NumberPad},
         computed: {
             // recordList(){
             //     return this.$store.state.recordList;
@@ -30,10 +33,12 @@
         }
     })
 
-    export default class Money extends Vue{
-        get recordList(){
+    export default class Money extends Vue {
+        get recordList() {
             return this.$store.state.recordList;
         }
+
+        recordTypeList = recordTypeList;
 
         record: RecordItem = {
             tags: [],
@@ -41,17 +46,21 @@
             type: '-',
             amount: 0,
         };
-        created(){
-            this.$store.commit('fetchRecords')
+
+        created() {
+            this.$store.commit('fetchRecords');
         }
-        onUpdateFormItem(value: string){
-            this.record.notes = value
+
+        onUpdateFormItem(value: string) {
+            this.record.notes = value;
         }
-        onUpdateNumberPad(value: number){
-            this.record.amount = value
+
+        onUpdateNumberPad(value: number) {
+            this.record.amount = value;
         }
-        saveRecord(){
-            this.$store.commit('createRecord', this.record)
+
+        saveRecord() {
+            this.$store.commit('createRecord', this.record);
         }
     }
 </script>
@@ -61,7 +70,8 @@
         display: flex;
         flex-direction: column-reverse;
     }
-    .m-from-wrap{
+
+    .m-from-wrap {
         padding: 10px 0;
         background: #f5f5f5
     }
