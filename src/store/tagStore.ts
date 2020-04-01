@@ -1,7 +1,6 @@
-import createId from "@/lib/createId";
+import createId from '@/lib/createId';
 
 const localStorageKeyName = 'tagList';
-
 
 const tagStore = {
     tagList: [] as Tag[],
@@ -15,7 +14,7 @@ const tagStore = {
     createTag(name: string) {
         const names = this.tagList.map(item => item.name);
         if (names.indexOf(name) >= 0) {
-            window.alert('重复');
+            window.alert('标签名重复了');
             return 'duplicated';
         }
         const id = createId().toString();
@@ -44,7 +43,7 @@ const tagStore = {
                 return 'duplicated';
             } else {
                 const tag = this.tagList.filter(item => item.id === id)[0];
-                tag.id = tag.name = name;
+                tag.name = name;
                 this.saveTags();
                 return 'success';
             }
@@ -54,7 +53,7 @@ const tagStore = {
     },
     saveTags() {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.tagList));
-    },
+    }
 };
 
 tagStore.fetchTags();
